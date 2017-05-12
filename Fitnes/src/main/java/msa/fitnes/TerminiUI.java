@@ -139,21 +139,24 @@ public class TerminiUI extends KorisnikUI{
 				
 				System.out.println(termini.get(i).toString());
 				++brojTrenutnihkorisnika;
-				System.out.println(brojTrenutnihkorisnika);
+				if(brojTrenutnihkorisnika == 16){
+					System.out.println("Nije slobodan termin");
+					break;
+				}
 			}
 			else if(timeOD.isBefore(termini.get(i).getVremeDO()) && timeDO.isAfter(termini.get(i).getVremeDO())){
 				
 				System.out.println(termini.get(i).toString());
 				++brojTrenutnihkorisnika;
-				System.out.println(brojTrenutnihkorisnika);
+				if(brojTrenutnihkorisnika == 16){
+					System.out.println("Nije slobodan termin");
+				}
 			}else
 				System.out.println("Nema zakazanih termina tada");
 			}
 		
 		
-		if(brojTrenutnihkorisnika >= 16){
-			System.out.println("Nije slobodan termin");
-		}
+		
 		
 		
 	}
@@ -172,21 +175,20 @@ public class TerminiUI extends KorisnikUI{
 				
 				System.out.println(termini.get(i).toString());
 				++brojTrenutnihkorisnika;
-				System.out.println(brojTrenutnihkorisnika);
+				if(brojTrenutnihkorisnika >= 16){
+					System.out.println("Nije slobodan termin");
+				}
 			}
 			else if(timeOD.isBefore(termini.get(i).getVremeDO()) && timeDO.isAfter(termini.get(i).getVremeDO())){
 				
 				System.out.println(termini.get(i).toString());
 				++brojTrenutnihkorisnika;
-				System.out.println(brojTrenutnihkorisnika);
+				if(brojTrenutnihkorisnika >= 16){
+					System.out.println("Nije slobodan termin");
+				}
 			}else
 				System.out.println("Nema zakazanih termina tada");
 
-		}
-		
-		
-		if(brojTrenutnihkorisnika >= 16){
-			System.out.println("Nije slobodan termin");
 		}
 		
 		
