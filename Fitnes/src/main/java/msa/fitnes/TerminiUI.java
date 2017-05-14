@@ -141,6 +141,10 @@ public class TerminiUI extends KorisnikUI{
 				++brojTrenutnihkorisnika;
 				if(brojTrenutnihkorisnika == 16){
 					System.out.println("Nije slobodan termin");
+<<<<<<< HEAD
+=======
+					break;
+>>>>>>> 6b995bab6af2ee1c69d9b7dbe9b3e783b4ab2637
 				}
 			}
 			else if(timeOD.isBefore(termini.get(i).getVremeDO()) && timeDO.isAfter(termini.get(i).getVremeDO())){
@@ -150,6 +154,7 @@ public class TerminiUI extends KorisnikUI{
 				if(brojTrenutnihkorisnika == 16){
 					System.out.println("Nije slobodan termin");
 				}
+<<<<<<< HEAD
 			}else if(timeOD.isAfter(termini.get(i).getVremeOD()) && timeDO.isBefore(termini.get(i).getVremeDO())){
 
 				System.out.println(termini.get(i).toString());
@@ -183,6 +188,16 @@ public class TerminiUI extends KorisnikUI{
 
 		System.out.println("Broj korisnika u tom terminu -----> " + brojTrenutnihkorisnika);
 
+=======
+			}else
+				System.out.println("Nema zakazanih termina tada");
+			}
+		
+		
+		
+		
+		
+>>>>>>> 6b995bab6af2ee1c69d9b7dbe9b3e783b4ab2637
 	}
 
 
@@ -198,6 +213,7 @@ public class TerminiUI extends KorisnikUI{
 		LocalTime timeOD = LocalTime.parse(vremeOD);
 		LocalTime timeDO = timeOD.plusMinutes(10);
 
+<<<<<<< HEAD
 		if(termini != null){
 			for (int i = 0; i < termini.size(); i++) {
 				if(timeOD.isBefore(termini.get(i).getVremeOD()) && timeDO.isAfter(termini.get(i).getVremeOD())){
@@ -248,6 +264,30 @@ public class TerminiUI extends KorisnikUI{
 		}
 		System.out.println("Broj korisnika u tom terminu -----> " + brojTrenutnihkorisnika);
 
+=======
+		for (int i = 0; i < termini.size(); i++) {
+			if(timeOD.isBefore(termini.get(i).getVremeOD()) && timeDO.isAfter(termini.get(i).getVremeOD())){
+				
+				System.out.println(termini.get(i).toString());
+				++brojTrenutnihkorisnika;
+				if(brojTrenutnihkorisnika >= 16){
+					System.out.println("Nije slobodan termin");
+				}
+			}
+			else if(timeOD.isBefore(termini.get(i).getVremeDO()) && timeDO.isAfter(termini.get(i).getVremeDO())){
+				
+				System.out.println(termini.get(i).toString());
+				++brojTrenutnihkorisnika;
+				if(brojTrenutnihkorisnika >= 16){
+					System.out.println("Nije slobodan termin");
+				}
+			}else
+				System.out.println("Nema zakazanih termina tada");
+
+		}
+		
+		
+>>>>>>> 6b995bab6af2ee1c69d9b7dbe9b3e783b4ab2637
 	}
 
 
