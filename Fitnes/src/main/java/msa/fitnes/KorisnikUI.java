@@ -13,7 +13,8 @@ public class KorisnikUI extends Korisnik{
 	
 
 	public static void ispisOpcijaKorisnika(){
-		System.out.println(  "Opcija 1: Unos Korisnika\n"
+		System.out.println("=============================\n"  
+				+"Opcija 1: Unos Korisnika\n"
 				+"Opcija 2: Ispis korisnika\n"
 				+"Opcija 3: Pretraga po imenu\n"
 				+"Opija 0: izlaz\n");

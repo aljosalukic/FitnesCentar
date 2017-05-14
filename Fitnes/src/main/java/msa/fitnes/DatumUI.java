@@ -18,7 +18,8 @@ public class DatumUI extends TerminiUI{
 
 
 	public static void ispisOpcijaDatuma(){
-		System.out.println(  "Opcija 1: ispis za zadati datum\n"
+		System.out.println( "=============================\n"
+				+"Opcija 1: ispis za zadati datum\n"
 				+"Opija 0: izlaz\n");
 	}
 
@@ -66,22 +67,22 @@ public class DatumUI extends TerminiUI{
 
 	}
 
-	public static void pronadjiPoDatumu(){
-
-		System.out.println("Unesite datum, u formatu dd/MM/yyyy");
-		String datum = Utility.ocitajTekst();
+	public static Datum pronadjiPoDatumu(String datum){
+		
+		Datum dt1 = null;
 
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy");
 		DateTime dt = formatter.parseDateTime(datum);
 
 		for (Datum dat : datumi) {
-			if(dat.getDate() == dt){
-				System.out.println(dat.getTermini().toString());
+			if(dat.getDate().getMonthOfYear() == dt.getMonthOfYear() && dat.getDate().getYear() == dt.getYear() && dat.getDate().getDayOfMonth() == dt.getDayOfMonth()){
+				dt1 = dat;
+				
 			}else
 				System.out.println("U zadatom datumu nema zakazanih termina");
 		}
 
-
+		return dt1;
 	}
 
 

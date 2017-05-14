@@ -47,6 +47,11 @@ public class Datum {
 		this.termini = termini;
 	}
 
+	
+	public void dodajTermine(List<Termin> termini) {
+		this.termini.addAll(termini);
+	}
+	
 	@Override
 	public String toString() {
 		return "Datum [date=" + date + ", termini=" + termini + "]";

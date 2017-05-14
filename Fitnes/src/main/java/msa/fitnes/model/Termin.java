@@ -19,6 +19,15 @@ public class Termin{
 			this.vremeDO = vremeOD.plusMinutes(duzina);
 			
 		}
+		
+		public Termin(Korisnik korisnik,String timeOD, int duzina) {
+			super();
+			this.korisnik = korisnik;
+			this.vremeOD = LocalTime.parse(timeOD);
+			this.duzina = duzina;
+			this.vremeDO = vremeOD.plusMinutes(duzina);
+			
+		}
 
 
 		public Termin() {
@@ -52,16 +61,12 @@ public class Termin{
 
 		public void setDuzina(int duzina) {
 			this.duzina = duzina;
+			this.vremeDO = vremeOD.plusMinutes(duzina);
 		}
 
 
 		public LocalTime getVremeDO() {
 			return vremeDO;
-		}
-
-
-		public void setVremeDO() {
-			this.vremeDO = vremeOD.plusMinutes(duzina);
 		}
 
 
