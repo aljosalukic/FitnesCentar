@@ -62,7 +62,7 @@ public class TerminiUI extends KorisnikUI{
 		String datum = Utility.ocitajTekst();
 		Datum datum1 = new Datum(datum);
 
-		System.out.println("Unesite vreme od u formatu (HH:mm) :");
+		System.out.println("Unesite vreme u periodu od 10:00 do 22:00 u formatu (HH:mm) :");
 		String vremeOD = Utility.ocitajTekst();
 		LocalTime timeOD = LocalTime.parse(vremeOD);
 		termin1.setVremeOD(timeOD);
@@ -125,7 +125,7 @@ public class TerminiUI extends KorisnikUI{
 		List<Termin> termini = DatumUI.listaPoDatumu(datum);
 
 
-		System.out.println("Unesite vreme od u formatu (HH:mm) :");
+		System.out.println("Unesite vreme u periodu od 10:00 do 22:00 u formatu (HH:mm) :");
 		String vremeOD = Utility.ocitajTekst();
 
 		System.out.println("Unesite duzinu trajanja treninga:");
@@ -136,60 +136,118 @@ public class TerminiUI extends KorisnikUI{
 
 		for (int i = 0; i < termini.size(); i++) {
 			if(timeOD.isBefore(termini.get(i).getVremeOD()) && timeDO.isAfter(termini.get(i).getVremeOD())){
-				
+
 				System.out.println(termini.get(i).toString());
 				++brojTrenutnihkorisnika;
-				System.out.println(brojTrenutnihkorisnika);
+				if(brojTrenutnihkorisnika == 16){
+					System.out.println("Nije slobodan termin");
+				}
 			}
 			else if(timeOD.isBefore(termini.get(i).getVremeDO()) && timeDO.isAfter(termini.get(i).getVremeDO())){
-				
+
 				System.out.println(termini.get(i).toString());
 				++brojTrenutnihkorisnika;
-				System.out.println(brojTrenutnihkorisnika);
-			}else
-				System.out.println("Nema zakazanih termina tada");
+				if(brojTrenutnihkorisnika == 16){
+					System.out.println("Nije slobodan termin");
+				}
+			}else if(timeOD.isAfter(termini.get(i).getVremeOD()) && timeDO.isBefore(termini.get(i).getVremeDO())){
+
+				System.out.println(termini.get(i).toString());
+				++brojTrenutnihkorisnika;
+				if(brojTrenutnihkorisnika == 16){
+					System.out.println("Nije slobodan termin");
+				}
+			}else if(timeOD.isBefore(termini.get(i).getVremeOD()) && timeOD.isAfter(termini.get(i).getVremeDO())){
+
+				System.out.println(termini.get(i).toString());
+				++brojTrenutnihkorisnika;
+				if(brojTrenutnihkorisnika == 16){
+					System.out.println("Nije slobodan termin");
+				}
+			}else if(timeOD.isEqual(termini.get(i).getVremeOD())){
+
+				System.out.println(termini.get(i).toString());
+				++brojTrenutnihkorisnika;
+				if(brojTrenutnihkorisnika == 16){
+					System.out.println("Nije slobodan termin");
+				}	
+			}else if(timeDO.equals(termini.get(i).getVremeDO())){
+
+				System.out.println(termini.get(i).toString());
+				++brojTrenutnihkorisnika;
+				if(brojTrenutnihkorisnika == 16){
+					System.out.println("Nije slobodan termin");
+				}
 			}
-		
-		
-		if(brojTrenutnihkorisnika >= 16){
-			System.out.println("Nije slobodan termin");
 		}
-		
-		
+
+		System.out.println("Broj korisnika u tom terminu -----> " + brojTrenutnihkorisnika);
+
 	}
+
 
 	public static void proveraTerminaSada(){
 
 		int brojTrenutnihkorisnika = 0;
 
 		DateTime dt = new DateTime();
+		System.out.println(dt.toString("dd/MM/yyyy"));
 		List<Termin> termini = DatumUI.listaPoDatumu(dt.toString("dd/MM/yyyy"));
-		LocalTime timeOD = LocalTime.now();
+		String vremeOD = LocalTime.now().toString("hh:mm");
+		System.out.println(vremeOD);
+		LocalTime timeOD = LocalTime.parse(vremeOD);
 		LocalTime timeDO = timeOD.plusMinutes(10);
 
-		for (int i = 0; i < termini.size(); i++) {
-			if(timeOD.isBefore(termini.get(i).getVremeOD()) && timeDO.isAfter(termini.get(i).getVremeOD())){
-				
-				System.out.println(termini.get(i).toString());
-				++brojTrenutnihkorisnika;
-				System.out.println(brojTrenutnihkorisnika);
-			}
-			else if(timeOD.isBefore(termini.get(i).getVremeDO()) && timeDO.isAfter(termini.get(i).getVremeDO())){
-				
-				System.out.println(termini.get(i).toString());
-				++brojTrenutnihkorisnika;
-				System.out.println(brojTrenutnihkorisnika);
-			}else
-				System.out.println("Nema zakazanih termina tada");
+		if(termini != null){
+			for (int i = 0; i < termini.size(); i++) {
+				if(timeOD.isBefore(termini.get(i).getVremeOD()) && timeDO.isAfter(termini.get(i).getVremeOD())){
 
+					System.out.println(termini.get(i).toString());
+					++brojTrenutnihkorisnika;
+					if(brojTrenutnihkorisnika == 16){
+						System.out.println("Nije slobodan termin");
+					}
+				}
+				else if(timeOD.isBefore(termini.get(i).getVremeDO()) && timeDO.isAfter(termini.get(i).getVremeDO())){
+
+					System.out.println(termini.get(i).toString());
+					++brojTrenutnihkorisnika;
+					if(brojTrenutnihkorisnika == 16){
+						System.out.println("Nije slobodan termin");
+					}
+				}else if(timeOD.isAfter(termini.get(i).getVremeOD()) && timeDO.isBefore(termini.get(i).getVremeDO())){
+
+					System.out.println(termini.get(i).toString());
+					++brojTrenutnihkorisnika;
+					if(brojTrenutnihkorisnika == 16){
+						System.out.println("Nije slobodan termin");
+					}
+				}else if(timeOD.isBefore(termini.get(i).getVremeOD()) && timeOD.isAfter(termini.get(i).getVremeDO())){
+
+					System.out.println(termini.get(i).toString());
+					++brojTrenutnihkorisnika;
+					if(brojTrenutnihkorisnika == 16){
+						System.out.println("Nije slobodan termin");
+					}
+				}else if(timeOD.isEqual(termini.get(i).getVremeOD())){
+
+					System.out.println(termini.get(i).toString());
+					++brojTrenutnihkorisnika;
+					if(brojTrenutnihkorisnika == 16){
+						System.out.println("Nije slobodan termin");
+					}	
+				}else if(timeDO.equals(termini.get(i).getVremeDO())){
+
+					System.out.println(termini.get(i).toString());
+					++brojTrenutnihkorisnika;
+					if(brojTrenutnihkorisnika == 16){
+						System.out.println("Nije slobodan termin");
+					}
+				}
+			}
 		}
-		
-		
-		if(brojTrenutnihkorisnika >= 16){
-			System.out.println("Nije slobodan termin");
-		}
-		
-		
+		System.out.println("Broj korisnika u tom terminu -----> " + brojTrenutnihkorisnika);
+
 	}
 
 
