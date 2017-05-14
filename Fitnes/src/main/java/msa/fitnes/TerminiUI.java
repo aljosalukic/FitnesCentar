@@ -2,11 +2,8 @@ package msa.fitnes;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
-
-
 import msa.fitnes.model.Datum;
 import msa.fitnes.model.Korisnik;
 import msa.fitnes.model.Termin;
@@ -24,6 +21,7 @@ public class TerminiUI extends KorisnikUI{
 				+"Opcija 1: Unos termina\n"
 				+"Opcija 2: Provera termina\n"
 				+"Opcija 3: Provera koje trenutno u centru\n"
+				+"Opcija 4: Prvi slobodan termin\n"
 				+"Opcija 0: izlaz\n");
 	}
 
@@ -47,6 +45,9 @@ public class TerminiUI extends KorisnikUI{
 			case 3:
 				proveraTerminaSada();
 				break;
+			case 4:
+				prviSlobodanTermin();
+				break;
 			default:
 				System.out.println("nepostojeca komanda");
 				break;
@@ -54,12 +55,15 @@ public class TerminiUI extends KorisnikUI{
 		}
 	}
 
+
+	// UNOS TERMINA 
 	public static void unosTermina(){
 
 		System.out.println("Unesite datum, u formatu dd/MM/yyyy");
 		String datum = Utility.ocitajTekst();
 		Datum datum1 = DatumUI.pronadjiPoDatumu(datum);
 
+		//Ako datum postoji
 		if(datum1 != null){
 			Termin termin1 = new Termin();
 			System.out.println("Unesite vreme u periodu od 10:00 do 22:00 u formatu (HH:mm) :");
@@ -83,6 +87,7 @@ public class TerminiUI extends KorisnikUI{
 					System.out.println("Nema korisnika");
 			}
 
+			//provera da li je popunjen broj korisnika centra u tom trenutku, ako nije(ako je true) onda dodajemo termin
 			if(proveraTermina(datum, vremeOD, duzina) == true){
 				listaTermina.add(termin1);
 				datum1.dodajTermine(listaTermina);
@@ -90,7 +95,7 @@ public class TerminiUI extends KorisnikUI{
 			}else
 				System.out.println("Termin zauzet");
 
-			
+
 			//AKO NE POSTOJE TERMINI ZA TAJ DATUM,KREIRAJ NOVI DATUM I TERMIN
 		}else {
 			System.out.println("Datum je prazan, unesite termin");
@@ -104,7 +109,7 @@ public class TerminiUI extends KorisnikUI{
 			System.out.println("Unesite duzinu trajanja treninga:");
 			int duzina = Utility.ocitajCeoBroj();
 			termin1.setDuzina(duzina);
-			
+
 			System.out.println("Unesite id korisnika");
 			int id = Utility.ocitajCeoBroj();
 
@@ -147,6 +152,8 @@ public class TerminiUI extends KorisnikUI{
 	//		return brojTrenutnihkorisnika;
 	//	}
 
+
+	//PROVERA PREKLAPANJA VREMENA
 	public static void proveraTermina(){
 
 		int brojTrenutnihkorisnika = 0;
@@ -326,22 +333,62 @@ public class TerminiUI extends KorisnikUI{
 
 	}
 
-	public static void prviSlobodanTermin(){
 
-		int brojKorisnika = 0;
 
-		System.out.println("Unesite duzinu trajanja treninga:");
-		int duzina = Utility.ocitajCeoBroj();
+	// VRACA BROJ KORISNIKA TERETANE U ZADATOM TRENUTKU
+	public static int brojKorisnika(DateTime dt1,LocalTime timeOD,int duzina){
 
-		DateTime dt = new DateTime();
-		System.out.println(dt.toString("dd/MM/yyyy"));
-		List<Termin> termini = DatumUI.listaPoDatumu(dt.toString("dd/MM/yyyy"));
-		String vremeOD = LocalTime.now().toString("hh:mm");
-		System.out.println(vremeOD);
-		LocalTime timeOD = LocalTime.parse(vremeOD);
+		int num = 0;
+		List<Termin> termini = DatumUI.listaPoDatumu(dt1.toString("dd/MM/yyyy"));
 		LocalTime timeDO = timeOD.plusMinutes(duzina);
 
+		if(termini != null){
+			for (int i = 0; i < termini.size(); i++) {
 
+				if(timeOD.isBefore(termini.get(i).getVremeOD()) && timeDO.isAfter(termini.get(i).getVremeOD())){
+					++num;
+				}
+				else if(timeOD.isBefore(termini.get(i).getVremeDO()) && timeDO.isAfter(termini.get(i).getVremeDO())){
+					++num;
+				}else if(timeOD.isAfter(termini.get(i).getVremeOD()) && timeDO.isBefore(termini.get(i).getVremeDO())){
+					++num;
+				}else if(timeOD.isBefore(termini.get(i).getVremeOD()) && timeOD.isAfter(termini.get(i).getVremeDO())){
+					++num;
+				}else if(timeOD.isEqual(termini.get(i).getVremeOD())){
+					++num;
+				}else if(timeDO.equals(termini.get(i).getVremeDO())){
+					++num;
+				}
+			}
+		}
+
+		return num;
+	}
+
+	// Proverava prvi slobodan termin te duzine od ovog trenutka
+	public static void prviSlobodanTermin(){
+		DateTime dt = new DateTime();
+		Datum datum = DatumUI.pronadjiPoDatumu(dt);
+
+		LocalTime timeOD = new LocalTime().now();
+		System.out.println("Unesite duzinu treninga:");
+		int duzina = Utility.ocitajCeoBroj();
+		LocalTime timeDO = timeOD.plusMinutes(duzina);
+
+		int brojKorisnika = brojKorisnika(dt, timeOD, duzina);
+
+		//ODREDJUJEMO MAX BROJ KORISNIKA I DA NAM PRETRAZI PRVI SLOBODAN TERMIN
+		while(brojKorisnika >= 4){
+			timeOD = timeOD.plusMinutes(10);
+			//AKO KRAJ TERMINA PRELAZI 22:00 PREBACUJEMO SE NA SLEDECI DAN 
+			if(timeDO.isAfter(LocalTime.parse("22:00"))){
+				dt = dt.plusDays(1);
+				timeOD = LocalTime.parse("10:00");
+			}
+			brojKorisnika = brojKorisnika(dt, timeOD, duzina);
+		}
+
+		System.out.println("Prvi slobodan termin je " + dt + " od " + timeOD);	
 
 	}
 
