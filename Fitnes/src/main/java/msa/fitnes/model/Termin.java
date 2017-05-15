@@ -72,8 +72,8 @@ public class Termin{
 
 		@Override
 		public String toString() {
-			return "Termin [korisnik=" + korisnik + " " + ", vremeOD=" + vremeOD + ", duzina=" + duzina + ", vremeDO="
-					+ vremeDO + "]";
+			return "Termin [korisnik=" + korisnik + " " + ", vremeOD=" + vremeOD.toString("HH:mm") + ", duzina=" + duzina + ", vremeDO="
+					+ vremeDO.toString("HH:mm") + "]";
 		}
 	
 		

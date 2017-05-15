@@ -231,7 +231,7 @@ public class TerminiUI extends KorisnikUI{
 		DateTime dt = new DateTime();
 		System.out.println(dt.toString("dd/MM/yyyy"));
 		List<Termin> termini = DatumUI.listaPoDatumu(dt.toString("dd/MM/yyyy"));
-		String vremeOD = LocalTime.now().toString("hh:mm");
+		String vremeOD = LocalTime.now().toString("HH:mm");
 		System.out.println(vremeOD);
 		LocalTime timeOD = LocalTime.parse(vremeOD);
 		LocalTime timeDO = timeOD.plusMinutes(10);
@@ -388,7 +388,7 @@ public class TerminiUI extends KorisnikUI{
 			brojKorisnika = brojKorisnika(dt, timeOD, duzina);
 		}
 
-		System.out.println("Prvi slobodan termin je " + dt + " od " + timeOD);	
+		System.out.println("Prvi slobodan termin je " + dt.toString("dd/MM/yyyy") + " od " + timeOD.toString("HH:mm"));	
 
 	}
 
