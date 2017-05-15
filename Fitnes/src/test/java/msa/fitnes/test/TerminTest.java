@@ -9,10 +9,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import msa.fitnes.KorisnikUI;
+import msa.fitnes.TerminiUI;
 import msa.fitnes.model.Korisnik;
+import msa.fitnes.model.Termin;
 
-public class KorisnikTest extends KorisnikUI {
-
+public class TerminTest extends TerminiUI{
+	
 	@Before
 	public void setUp() throws Exception {
 		
@@ -24,6 +26,14 @@ public class KorisnikTest extends KorisnikUI {
 		
 		assertTrue(KorisnikUI.listaKorisnika.add(kor1));
 		assertTrue(KorisnikUI.listaKorisnika.add(kor2));
+		
+		
+		Termin termin1 = new Termin(kor1, "10:00", 60);
+		Termin termin2 = new Termin(kor2, "12:00", 160);
+		
+		assertTrue(listaTermina.add(termin1));
+		assertTrue(listaTermina.add(termin2));
+		
 	}
 	
 	
@@ -38,16 +48,22 @@ public class KorisnikTest extends KorisnikUI {
 			}
 			
 		}
+		for (Iterator<Termin> iterator = listaTermina.iterator(); iterator.hasNext();) {
+			Termin termin = (Termin) iterator.next();
+			if(termin.getKorisnik().getIme().equalsIgnoreCase("Marko") && termin.getVremeOD().toString("HH:mm").equalsIgnoreCase("10:00")){
+				iterator.remove();
+			}else if(termin.getKorisnik().getIme().equalsIgnoreCase("Ivan") && termin.getVremeOD().toString("HH:mm").equalsIgnoreCase("12:00")){
+				iterator.remove();
+			}
+		}
 	}
-	
 	
 	@Test
 	public void test() {
-		Korisnik kor3 = korisnikByID(1);
+		Korisnik kor1 = new Korisnik(1, "Marko", "Markovic");
+		Termin termin1 = new Termin(kor1, "10:00", 60);
 		
-		assertNotNull(kor3);
 		
-		assertEquals("Marko",kor3.getIme());
 		
 	}
 
