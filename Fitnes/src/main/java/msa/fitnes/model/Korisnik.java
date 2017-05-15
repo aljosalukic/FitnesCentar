@@ -51,7 +51,7 @@ public class Korisnik {
 
 	@Override
 	public String toString() {
-		return "Korisnik [id=" + id + ", ime=" + ime + ", prezime=" + prezime + "]";
+		return "id=" + id + ", ime=" + ime + ", prezime=" + prezime;
 	}
 	
 	
